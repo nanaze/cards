@@ -2,4 +2,6 @@
 generate_pdf
 *.pdf
 *.cmake
-CmakeFiles/
+CMakeFiles/
+CMakeCache.txt
+Makefile
