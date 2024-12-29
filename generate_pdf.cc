@@ -53,6 +53,8 @@ int main(int argc, char **argv) {
 
   PangoLayout *layout = pango_cairo_create_layout(cr);
 
+  // TODO: here, read stdin to get the addresses (CSV) and write one page for each entry.
+
   WriteReturnAddress(cr, layout);
   WriteAddress(cr, layout);
 
