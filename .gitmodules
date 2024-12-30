@@ -2,3 +2,8 @@
 	path = third_party/abseil-cpp
 	url = https://github.com/abseil/abseil-cpp.git
 	ignore=untracked
+
+[submodule "third_party/rapidcsv"]
+	path = third_party/rapidcsv
+	url = https://github.com/d99kris/rapidcsv.git
+	ignore=untracked

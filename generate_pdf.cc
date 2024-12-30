@@ -5,6 +5,7 @@
 #include <pango/pangocairo.h>
 
 #include <iostream>
+#include "rapidcsv.h"
 
 constexpr int WIDTH_INCHES = 6;
 constexpr double HEIGHT_INCHES = 4.5;
