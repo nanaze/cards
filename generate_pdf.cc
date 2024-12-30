@@ -5,14 +5,15 @@
 #include <pango/pangocairo.h>
 
 #include <iostream>
+
 #include "rapidcsv.h"
 
 constexpr int WIDTH_INCHES = 6;
 constexpr double HEIGHT_INCHES = 4.5;
 
 void WriteReturnAddress(cairo_t *cr, PangoLayout *layout) {
-   PangoFontDescription *desc =
-          pango_font_description_from_string("Times New Roman");
+  PangoFontDescription *desc =
+      pango_font_description_from_string("Times New Roman");
   pango_font_description_set_absolute_size(desc, PANGO_SCALE * 10);
   pango_layout_set_font_description(layout, desc);
 
@@ -28,7 +29,7 @@ void WriteReturnAddress(cairo_t *cr, PangoLayout *layout) {
 
 void WriteAddress(cairo_t *cr, PangoLayout *layout) {
   PangoFontDescription *desc =
-          pango_font_description_from_string("Times New Roman");
+      pango_font_description_from_string("Times New Roman");
   pango_font_description_set_absolute_size(desc, PANGO_SCALE * 12);
   pango_layout_set_font_description(layout, desc);
 
@@ -54,7 +55,8 @@ int main(int argc, char **argv) {
 
   PangoLayout *layout = pango_cairo_create_layout(cr);
 
-  // TODO: here, read stdin to get the addresses (CSV) and write one page for each entry.
+  // TODO: here, read stdin to get the addresses (CSV) and write one page for
+  // each entry.
 
   WriteReturnAddress(cr, layout);
   WriteAddress(cr, layout);
