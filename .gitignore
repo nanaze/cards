@@ -5,3 +5,4 @@ generate_pdf
 CMakeFiles/
 CMakeCache.txt
 Makefile
+.vscode/
