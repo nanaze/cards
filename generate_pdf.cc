@@ -11,7 +11,7 @@
 constexpr int WIDTH_INCHES = 6;
 constexpr double HEIGHT_INCHES = 4.5;
 
-void WriteReturnAddress(cairo_t *cr) {
+void WriteReturnAddress(const std::string &return_address, cairo_t *cr) {
   PangoLayout *layout = pango_cairo_create_layout(cr);
 
   PangoFontDescription *desc =
@@ -19,7 +19,7 @@ void WriteReturnAddress(cairo_t *cr) {
   pango_font_description_set_absolute_size(desc, PANGO_SCALE * 10);
   pango_layout_set_font_description(layout, desc);
 
-  pango_layout_set_text(layout, "Return Address", -1);
+  pango_layout_set_text(layout, return_address.c_str(), -1);
   pango_cairo_update_layout(cr, layout);
 
   cairo_move_to(cr, 10, 10);
@@ -29,7 +29,7 @@ void WriteReturnAddress(cairo_t *cr) {
   pango_font_description_free(desc);
 }
 
-void WriteAddress(cairo_t *cr) {
+void WriteAddress(const std::string &address, cairo_t *cr) {
   PangoLayout *layout = pango_cairo_create_layout(cr);
 
   PangoFontDescription *desc =
@@ -37,7 +37,7 @@ void WriteAddress(cairo_t *cr) {
   pango_font_description_set_absolute_size(desc, PANGO_SCALE * 12);
   pango_layout_set_font_description(layout, desc);
 
-  pango_layout_set_text(layout, "Address", -1);
+  pango_layout_set_text(layout, address.c_str(), -1);
   pango_cairo_update_layout(cr, layout);
 
   cairo_move_to(cr, 2 * 72, 2 * 72);
@@ -55,14 +55,23 @@ int main(int argc, char **argv) {
       },
       nullptr, WIDTH_INCHES * 72, HEIGHT_INCHES * 72);
 
-  cairo_t *cr = cairo_create(surface);
+  std::string input(std::istreambuf_iterator<char>(std::cin), {});
+  std::stringstream string_stream(input);
+  rapidcsv::Document csv_document(string_stream, rapidcsv::LabelParams(-1, -1));
 
-  // TODO: here, read stdin to get the addresses (CSV) and write one page for
-  // each entry.
+  for (size_t i = 0; i < csv_document.GetRowCount(); i++) {
+    const auto &row = csv_document.GetRow<std::string>(i);
+    const auto &return_address = row[0];
+    const auto &to_address = row[1];
 
-  WriteReturnAddress(cr);
-  WriteAddress(cr);
+    cairo_t *cr = cairo_create(surface);
 
-  cairo_destroy(cr);
+    WriteReturnAddress(return_address, cr);
+    WriteAddress(to_address, cr);
+    cairo_show_page(cr);  // finishes the page
+
+    cairo_destroy(cr);
+  }
+
   cairo_surface_destroy(surface);
 }
