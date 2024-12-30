@@ -59,19 +59,18 @@ int main(int argc, char **argv) {
   std::stringstream string_stream(input);
   rapidcsv::Document csv_document(string_stream, rapidcsv::LabelParams(-1, -1));
 
+  cairo_t *cr = cairo_create(surface);
+
   for (size_t i = 0; i < csv_document.GetRowCount(); i++) {
     const auto &row = csv_document.GetRow<std::string>(i);
     const auto &return_address = row[0];
     const auto &to_address = row[1];
 
-    cairo_t *cr = cairo_create(surface);
-
     WriteReturnAddress(return_address, cr);
     WriteAddress(to_address, cr);
     cairo_show_page(cr);  // finishes the page
-
-    cairo_destroy(cr);
   }
 
+  cairo_destroy(cr);
   cairo_surface_destroy(surface);
 }
